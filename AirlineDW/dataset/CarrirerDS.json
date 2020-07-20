@@ -1,0 +1,34 @@
+{
+	"name": "CarrirerDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "destination",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Airline DS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IdCarrier",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CarrierName",
+				"type": "varchar"
+			},
+			{
+				"name": "IdAirline",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dimCarrierName"
+		}
+	}
+}
