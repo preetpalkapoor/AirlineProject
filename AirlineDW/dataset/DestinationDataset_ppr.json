@@ -1,0 +1,29 @@
+{
+	"name": "DestinationDataset_ppr",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "destination",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Test"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "fname",
+				"type": "varchar"
+			},
+			{
+				"name": "lname",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "employee_name"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

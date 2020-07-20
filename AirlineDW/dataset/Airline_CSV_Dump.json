@@ -1,0 +1,148 @@
+{
+	"name": "Airline_CSV_Dump",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobStorageConnection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Filename": {
+				"type": "string",
+				"defaultValue": "airlines.csv"
+			},
+			"containername": {
+				"type": "string",
+				"defaultValue": "preet-container"
+			},
+			"foldername": {
+				"type": "string",
+				"defaultValue": "input"
+			}
+		},
+		"folder": {
+			"name": "Airline DS"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().Filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().foldername",
+					"type": "Expression"
+				},
+				"container": {
+					"value": "@dataset().containername",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Airport.Code",
+				"type": "String"
+			},
+			{
+				"name": "Airport.Name",
+				"type": "String"
+			},
+			{
+				"name": "Time.Label",
+				"type": "String"
+			},
+			{
+				"name": "Time.Month",
+				"type": "String"
+			},
+			{
+				"name": "Time.Month Name",
+				"type": "String"
+			},
+			{
+				"name": "Time.Year",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.# of Delays.Carrier",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.# of Delays.Late Aircraft",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.# of Delays.National Aviation System",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.# of Delays.Security",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.# of Delays.Weather",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Carriers.Names",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Carriers.Total",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Flights.Cancelled",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Flights.Delayed",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Flights.Diverted",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Flights.On Time",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Flights.Total",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Minutes Delayed.Carrier",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Minutes Delayed.Late Aircraft",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Minutes Delayed.National Aviation System",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Minutes Delayed.Security",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Minutes Delayed.Total",
+				"type": "String"
+			},
+			{
+				"name": "Statistics.Minutes Delayed.Weather",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

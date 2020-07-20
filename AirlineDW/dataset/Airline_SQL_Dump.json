@@ -1,0 +1,117 @@
+{
+	"name": "Airline_SQL_Dump",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "destination",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Airline DS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Airport_Code",
+				"type": "varchar"
+			},
+			{
+				"name": "Airport_Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Time_Label",
+				"type": "varchar"
+			},
+			{
+				"name": "Time_Month",
+				"type": "varchar"
+			},
+			{
+				"name": "Time_Month_Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Time_Year",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_#_of_Delays_Carrier",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_#_of_Delays_Late_Aircraft",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_#_of_Delays_National_Aviation_System",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_#_of_Delays_Security",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_#_of_Delays_Weather",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Carriers_Names",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Carriers_Total",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Flights_Cancelled",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Flights_Delayed",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Flights_Diverted",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Flights_On_Time",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Flights_Total",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Minutes_Delayed_Carrier",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Minutes_Delayed_Late_Aircraft",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Minutes_Delayed_National_Aviation_System",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Minutes_Delayed_Security",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Minutes_Delayed_Total",
+				"type": "varchar"
+			},
+			{
+				"name": "Statistics_Minutes_Delayed_Weather",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "airline_dump"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

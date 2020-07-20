@@ -1,0 +1,34 @@
+{
+	"name": "dimAirlineDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "destination",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Airline DS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Idairline",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "airlinename",
+				"type": "varchar"
+			},
+			{
+				"name": "airlinecode",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dimAirline"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
