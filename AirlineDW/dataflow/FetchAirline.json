@@ -1,6 +1,9 @@
 {
 	"name": "FetchAirline",
 	"properties": {
+		"folder": {
+			"name": "Airline DF"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
