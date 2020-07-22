@@ -1,0 +1,60 @@
+{
+	"name": "fctFlightsDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "destination",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IdCarrier",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Time_Month",
+				"type": "char"
+			},
+			{
+				"name": "Time_Year",
+				"type": "char"
+			},
+			{
+				"name": "IdAirline",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numCancelled",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numDelayed",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numDiverted",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numOnTime",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numTotal",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "fctFlights"
+		}
+	}
+}
