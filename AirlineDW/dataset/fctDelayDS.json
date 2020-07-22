@@ -17,6 +17,10 @@
 				"precision": 10
 			},
 			{
+				"name": "Time_Label",
+				"type": "date"
+			},
+			{
 				"name": "IdAirline",
 				"type": "int",
 				"precision": 10
