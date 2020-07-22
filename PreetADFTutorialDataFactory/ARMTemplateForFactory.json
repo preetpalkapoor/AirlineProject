@@ -1,0 +1,1226 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "PreetADFTutorialDataFactory"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"BlobStorageConnection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'BlobStorageConnection'"
+		},
+		"destination_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'destination'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyDataBlobToBlob')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopydataFromBlobToBlob",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "Binary1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Binary2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"concurrency": 1,
+				"folder": {
+					"name": "Test"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Binary1')]",
+				"[concat(variables('factoryId'), '/datasets/Binary2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadAirlineDump')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoadDump",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Airport.Code",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Airport_Code",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Airport.Name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Airport_Name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Time.Label",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Time_Label",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Time.Month",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Time_Month",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Time.Month Name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Time_Month_Name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Time.Year",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Time_Year",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.# of Delays.Carrier",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_#_of_Delays_Carrier",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.# of Delays.Late Aircraft",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_#_of_Delays_Late_Aircraft",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.# of Delays.National Aviation System",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_#_of_Delays_National_Aviation_System",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.# of Delays.Security",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_#_of_Delays_Security",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.# of Delays.Weather",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_#_of_Delays_Weather",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Carriers.Names",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Carriers_Names",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Carriers.Total",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Carriers_Total",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Flights.Cancelled",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Flights_Cancelled",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Flights.Delayed",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Flights_Delayed",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Flights.Diverted",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Flights_Diverted",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Flights.On Time",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Flights_On_Time",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Flights.Total",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Flights_Total",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Minutes Delayed.Carrier",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Minutes_Delayed_Carrier",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Minutes Delayed.Late Aircraft",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Minutes_Delayed_Late_Aircraft",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Minutes Delayed.National Aviation System",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Minutes_Delayed_National_Aviation_System",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Minutes Delayed.Security",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Minutes_Delayed_Security",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Minutes Delayed.Total",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Minutes_Delayed_Total",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Statistics.Minutes Delayed.Weather",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Statistics_Minutes_Delayed_Weather",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Airline_CSV_Dump",
+								"type": "DatasetReference",
+								"parameters": {
+									"Filename": "airlines.csv",
+									"containername": "preet-container",
+									"foldername": "input"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Airline_SQL_Dump",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "Airline DW"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Airline_CSV_Dump')]",
+				"[concat(variables('factoryId'), '/datasets/Airline_SQL_Dump')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadDimension')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoadData",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FetchAirline",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"FetchDimAirline": {},
+									"DimAirlineDestination": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
+					},
+					{
+						"name": "FetchCarrier",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "LoadData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FetchCarrier",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DIMAirline": {},
+									"FetchCarrier": {},
+									"DimCarrier": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
+					}
+				],
+				"folder": {
+					"name": "Airline DW"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/FetchAirline')]",
+				"[concat(variables('factoryId'), '/dataflows/FetchCarrier')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Airline_CSV_Dump')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "BlobStorageConnection",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Filename": {
+						"type": "string",
+						"defaultValue": "airlines.csv"
+					},
+					"containername": {
+						"type": "string",
+						"defaultValue": "preet-container"
+					},
+					"foldername": {
+						"type": "string",
+						"defaultValue": "input"
+					}
+				},
+				"folder": {
+					"name": "Airline DS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().Filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().foldername",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().containername",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Airport.Code",
+						"type": "String"
+					},
+					{
+						"name": "Airport.Name",
+						"type": "String"
+					},
+					{
+						"name": "Time.Label",
+						"type": "String"
+					},
+					{
+						"name": "Time.Month",
+						"type": "String"
+					},
+					{
+						"name": "Time.Month Name",
+						"type": "String"
+					},
+					{
+						"name": "Time.Year",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.# of Delays.Carrier",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.# of Delays.Late Aircraft",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.# of Delays.National Aviation System",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.# of Delays.Security",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.# of Delays.Weather",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Carriers.Names",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Carriers.Total",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Flights.Cancelled",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Flights.Delayed",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Flights.Diverted",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Flights.On Time",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Flights.Total",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Minutes Delayed.Carrier",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Minutes Delayed.Late Aircraft",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Minutes Delayed.National Aviation System",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Minutes Delayed.Security",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Minutes Delayed.Total",
+						"type": "String"
+					},
+					{
+						"name": "Statistics.Minutes Delayed.Weather",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/BlobStorageConnection')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Airline_SQL_Dump')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "destination",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Airline DS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Airport_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Airport_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Time_Label",
+						"type": "varchar"
+					},
+					{
+						"name": "Time_Month",
+						"type": "varchar"
+					},
+					{
+						"name": "Time_Month_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Time_Year",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_#_of_Delays_Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_#_of_Delays_Late_Aircraft",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_#_of_Delays_National_Aviation_System",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_#_of_Delays_Security",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_#_of_Delays_Weather",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Carriers_Names",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Carriers_Total",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Flights_Cancelled",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Flights_Delayed",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Flights_Diverted",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Flights_On_Time",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Flights_Total",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Minutes_Delayed_Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Minutes_Delayed_Late_Aircraft",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Minutes_Delayed_National_Aviation_System",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Minutes_Delayed_Security",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Minutes_Delayed_Total",
+						"type": "varchar"
+					},
+					{
+						"name": "Statistics_Minutes_Delayed_Weather",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "airline_dump"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/destination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Binary1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "BlobStorageConnection",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Test"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "emp.txt",
+						"folderPath": "input",
+						"container": "preet-container"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/BlobStorageConnection')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Binary2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "BlobStorageConnection",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Test"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "outputfile.txt",
+						"folderPath": "output",
+						"container": "preet-container"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/BlobStorageConnection')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CarrirerDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "destination",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Airline DS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "IdCarrier",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CarrierName",
+						"type": "varchar"
+					},
+					{
+						"name": "IdAirline",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dimCarrierName"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/destination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_ppr')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "destination",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Test"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "fname",
+						"type": "varchar"
+					},
+					{
+						"name": "lname",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "employee_name"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/destination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_ppr')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Test"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "emp.txt",
+						"folderPath": "input",
+						"container": "preet-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dimAirlineDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "destination",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Airline DS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Idairline",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "airlinename",
+						"type": "varchar"
+					},
+					{
+						"name": "airlinecode",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dimAirline"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/destination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/stgcarriername')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "stgcarriername"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/destination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BlobStorageConnection')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('BlobStorageConnection_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/destination')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('destination_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "CopyDataBlobToBlob",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 1,
+						"startTime": "2020-07-14T17:21:00Z",
+						"endTime": "2020-07-15T11:48:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/CopyDataBlobToBlob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger2')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipeline": {
+					"pipelineReference": {
+						"referenceName": "CopyDataBlobToBlob",
+						"type": "PipelineReference"
+					},
+					"parameters": {}
+				},
+				"type": "TumblingWindowTrigger",
+				"typeProperties": {
+					"frequency": "Minute",
+					"interval": 15,
+					"startTime": "2020-07-14T18:30:00Z",
+					"endTime": "2020-07-15T12:58:00Z",
+					"delay": "00:00:00",
+					"maxConcurrency": 50,
+					"retryPolicy": {
+						"intervalInSeconds": 30
+					},
+					"dependsOn": []
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/CopyDataBlobToBlob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FetchAirline')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Airline DF"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Airline_SQL_Dump",
+								"type": "DatasetReference"
+							},
+							"name": "FetchDimAirline"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "dimAirlineDS",
+								"type": "DatasetReference"
+							},
+							"name": "DimAirlineDestination"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DistinctData"
+						}
+					],
+					"script": "source(output(\n\t\tAirport_Code as string,\n\t\tAirport_Name as string,\n\t\tTime_Label as string,\n\t\tTime_Month as string,\n\t\tTime_Month_Name as string,\n\t\tTime_Year as string,\n\t\t{Statistics_#_of_Delays_Carrier} as string,\n\t\t{Statistics_#_of_Delays_Late_Aircraft} as string,\n\t\t{Statistics_#_of_Delays_National_Aviation_System} as string,\n\t\t{Statistics_#_of_Delays_Security} as string,\n\t\t{Statistics_#_of_Delays_Weather} as string,\n\t\tStatistics_Carriers_Names as string,\n\t\tStatistics_Carriers_Total as string,\n\t\tStatistics_Flights_Cancelled as string,\n\t\tStatistics_Flights_Delayed as string,\n\t\tStatistics_Flights_Diverted as string,\n\t\tStatistics_Flights_On_Time as string,\n\t\tStatistics_Flights_Total as string,\n\t\tStatistics_Minutes_Delayed_Carrier as string,\n\t\tStatistics_Minutes_Delayed_Late_Aircraft as string,\n\t\tStatistics_Minutes_Delayed_National_Aviation_System as string,\n\t\tStatistics_Minutes_Delayed_Security as string,\n\t\tStatistics_Minutes_Delayed_Total as string,\n\t\tStatistics_Minutes_Delayed_Weather as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> FetchDimAirline\nFetchDimAirline aggregate(groupBy(Airport_Code,\n\t\tAirport_Name),\n\tAirportCount = count(Airport_Code)) ~> DistinctData\nDistinctData sink(input(\n\t\tIdairline as integer,\n\t\tairlinename as string,\n\t\tairlinecode as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tairlinecode = Airport_Code,\n\t\tairlinename = Airport_Name\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> DimAirlineDestination"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Airline_SQL_Dump')]",
+				"[concat(variables('factoryId'), '/datasets/dimAirlineDS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FetchCarrier')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Airline DF"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dimAirlineDS",
+								"type": "DatasetReference"
+							},
+							"name": "DIMAirline"
+						},
+						{
+							"dataset": {
+								"referenceName": "Airline_SQL_Dump",
+								"type": "DatasetReference"
+							},
+							"name": "FetchCarrier"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "CarrirerDS",
+								"type": "DatasetReference"
+							},
+							"name": "DimCarrier"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Join1"
+						}
+					],
+					"script": "source(output(\n\t\tIdairline as integer,\n\t\tairlinename as string,\n\t\tairlinecode as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DIMAirline\nsource(output(\n\t\tAirport_code as string,\n\t\tvalue as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select distinct Cast(Airport_code as varchar(5)) as Airport_code,value  from airline_dump\\ncross apply string_split([Statistics_Carriers_Names],\\',\\')',\n\tformat: 'query') ~> FetchCarrier\nDIMAirline, FetchCarrier join(airlinecode == Airport_code,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 sink(input(\n\t\tIdCarrier as integer,\n\t\tCarrierName as string,\n\t\tIdAirline as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tIdAirline = Idairline,\n\t\tCarrierName = value\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> DimCarrier"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/dimAirlineDS')]",
+				"[concat(variables('factoryId'), '/datasets/Airline_SQL_Dump')]",
+				"[concat(variables('factoryId'), '/datasets/CarrirerDS')]"
+			]
+		}
+	]
+}
