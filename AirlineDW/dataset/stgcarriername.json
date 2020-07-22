@@ -5,6 +5,9 @@
 			"referenceName": "destination",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Airline DS"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [],
