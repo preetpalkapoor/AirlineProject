@@ -1,0 +1,52 @@
+{
+	"name": "fctDelayDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "destination",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IdDelay",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IdAirline",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numCarrier",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numLateAircraft",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numNAS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numSecurity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "numWeather",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "fctDelay"
+		}
+	}
+}
