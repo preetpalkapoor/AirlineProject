@@ -1,0 +1,15 @@
+{
+	"name": "TableList",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "destination",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Test"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
