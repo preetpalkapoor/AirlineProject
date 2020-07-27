@@ -5,6 +5,11 @@
 			"referenceName": "destination",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "Test"
 		},
@@ -40,7 +45,10 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Cars"
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
 		}
 	}
 }
