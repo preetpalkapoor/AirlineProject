@@ -163,16 +163,19 @@
 				"inputs": [
 					{
 						"referenceName": "OutputSQL",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"tablename": {
+								"value": "@pipeline().parameters.tablename",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "InputCSV",
-						"type": "DatasetReference",
-						"parameters": {
-							"Filename": "planes_output.csv"
-						}
+						"type": "DatasetReference"
 					}
 				]
 			}
