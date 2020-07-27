@@ -5,7 +5,14 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -103,6 +110,95 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"tablename": "planes"
+						}
+					}
+				]
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"sink": {
+									"name": "Make"
+								}
+							},
+							{
+								"sink": {
+									"name": "Model"
+								}
+							},
+							{
+								"sink": {
+									"name": "Type"
+								}
+							},
+							{
+								"sink": {
+									"name": "Origin"
+								}
+							},
+							{
+								"sink": {
+									"name": "DriveTrain"
+								}
+							},
+							{
+								"sink": {
+									"name": "Length"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "OutputSQL",
+						"type": "DatasetReference",
+						"parameters": {
+							"tablename": "planes"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "InputCSV",
+						"type": "DatasetReference",
+						"parameters": {
+							"Filename": "planes_output.csv"
 						}
 					}
 				]
