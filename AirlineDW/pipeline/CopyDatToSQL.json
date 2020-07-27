@@ -102,7 +102,10 @@
 						"referenceName": "InputCSV",
 						"type": "DatasetReference",
 						"parameters": {
-							"Filename": "planes.csv"
+							"Filename": {
+								"value": "@concat(pipeline().parameters.filename,'.csv')",
+								"type": "Expression"
+							}
 						}
 					}
 				],
@@ -111,7 +114,10 @@
 						"referenceName": "OutputSQL",
 						"type": "DatasetReference",
 						"parameters": {
-							"tablename": "planes"
+							"tablename": {
+								"value": "@pipeline().parameters.tablename",
+								"type": "Expression"
+							}
 						}
 					}
 				]
@@ -157,10 +163,7 @@
 				"inputs": [
 					{
 						"referenceName": "OutputSQL",
-						"type": "DatasetReference",
-						"parameters": {
-							"tablename": "planes"
-						}
+						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
