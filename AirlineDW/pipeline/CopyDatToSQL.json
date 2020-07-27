@@ -34,74 +34,50 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Make",
+									"name": "ICAO",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Make",
+									"name": "ICAO",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "Model",
+									"name": "IATA",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Model",
+									"name": "IATA",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "Type",
+									"name": "MAKER",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Type",
+									"name": "MAKER",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "Origin",
+									"name": "DESCRIPTION",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Origin",
+									"name": "DESCRIPTION",
 									"type": "String",
 									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "DriveTrain",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "DriveTrain",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Length",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Length",
-									"type": "Decimal",
-									"physicalType": "decimal"
 								}
 							}
 						],
@@ -117,7 +93,7 @@
 						"referenceName": "InputCSV",
 						"type": "DatasetReference",
 						"parameters": {
-							"Filename": "cars.csv"
+							"Filename": "planes.csv"
 						}
 					}
 				],
@@ -126,7 +102,7 @@
 						"referenceName": "OutputSQL",
 						"type": "DatasetReference",
 						"parameters": {
-							"tablename": "cars"
+							"tablename": "planes"
 						}
 					}
 				]
