@@ -33,7 +33,9 @@
 						}
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table planes;",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -145,38 +147,6 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"sink": {
-									"name": "Make"
-								}
-							},
-							{
-								"sink": {
-									"name": "Model"
-								}
-							},
-							{
-								"sink": {
-									"name": "Type"
-								}
-							},
-							{
-								"sink": {
-									"name": "Origin"
-								}
-							},
-							{
-								"sink": {
-									"name": "DriveTrain"
-								}
-							},
-							{
-								"sink": {
-									"name": "Length"
-								}
-							}
-						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
