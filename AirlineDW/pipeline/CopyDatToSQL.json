@@ -175,7 +175,13 @@
 				"outputs": [
 					{
 						"referenceName": "InputCSV",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"Filename": {
+								"value": "@concat(pipeline().parameters.filename,'.csv')",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
