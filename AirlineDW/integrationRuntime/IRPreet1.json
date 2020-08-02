@@ -1,0 +1,27 @@
+{
+	"name": "IRPreet1",
+	"properties": {
+		"type": "Managed",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "Central India",
+				"nodeSize": "Standard_D4_v3",
+				"numberOfNodes": 2,
+				"maxParallelExecutionsPerNode": 4
+			},
+			"ssisProperties": {
+				"catalogInfo": {
+					"catalogServerEndpoint": "preet-dw-server.database.windows.net",
+					"catalogAdminUserName": "preetadmin",
+					"catalogAdminPassword": {
+						"type": "SecureString",
+						"value": "**********"
+					},
+					"catalogPricingTier": "S1"
+				},
+				"edition": "Standard",
+				"licenseType": "LicenseIncluded"
+			}
+		}
+	}
+}
